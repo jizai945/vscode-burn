@@ -1,5 +1,6 @@
 out
 dist
+/dist   # 子目录下的dist不忽略
 node_modules
 .vscode-test/
 *.vsix

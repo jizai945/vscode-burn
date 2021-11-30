@@ -8,7 +8,7 @@ const util = require('./util');
 var _last_path:string = "/D:/"; // 记录上次打开的文件对话框位置
 const version = "0.0.1";
 const BurnUrl = {
-	'Burn': 'webview/burnView/index.html',
+	'Burn': 'webView/burnView/index.html',
 	'Compiling Cat': 'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
 	'Testing Cat': 'https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif'
 };
