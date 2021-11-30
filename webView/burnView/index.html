@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <!-- <link rel="stylesheet" href="../../../lib/element-ui-2.15.6/lib/theme-chalk/index.css"> -->
+  <link rel="stylesheet" href="../../node_modules/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="app">
+    <el-container>
+      <el-header>烧录界面</el-header>
+      <el-main >
+        <el-row :gutter="20">
+          <el-col :span="3":offset="3"><div class="grid-content bg-purple" style="height: 80px;">烧录文件:</div></el-col>
+          <el-col :span="14"><el-input v-model="burFile" readonly placeholder="请选择文件" ref="burFile"></el-input></el-col>
+          <el-col :span="3">
+            <el-button type="primary" @click="choiceBurnFile">选择文件</el-button>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="3":offset="3"><div class="grid-content bg-purple" style="height: 80px;">烧录地址:</div></el-col>
+          <el-col :span="14">
+            <el-input v-model="burnAddr" placeholder="请输入地址"></el-input>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="3":offset="3"><div class="grid-content bg-purple" style="height: 80px;">烧录芯片:</div></el-col>
+          <el-col :span="14"><el-input v-model="burDevice" readonly placeholder="" ref="burDevice"></el-col>
+          <el-col :span="3">
+            <el-button type="primary" placeholder="请选择芯片" @click="choiceBurnDevice">选择芯片</el-button>
+            <!-- dialog -->
+            <el-dialog title="芯片型号" :visible.sync="dialogTableVisible">
+              <div>
+                <el-input v-model="filterInput" placeholder="输入进行筛选" @input="filtChange" ref="filterInput"></el-input>
+              </div>
+              <el-table :data="gridData" max-height="350" @cell-dblclick="tableDbDevice">
+                <el-table-column property="deviceName" label="型号"></el-table-column>
+              </el-table>
+            </el-dialog>
+
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="18":offset="3">
+            <el-tabs type="border-card" v-model="tabActivateName">
+              <el-tab-pane label="执行日志" name="logTab">
+                    <el-input
+                      id="textarea_id"
+                      type="textarea"
+                      :rows=logRows
+                      readonly
+                      show-word-limi
+                      placeholder="日志"
+                      v-model="textarea">
+                    </el-input>
+      
+              </el-tab-pane> 
+              <el-tab-pane label="flash数据" name="readTab">
+                <el-input
+                  id="readarea_id"
+                  type="textarea"
+                  :rows=logRows
+                  readonly
+                  show-word-limi
+                  placeholder="flash信息"
+                  v-model="flashArea">
+                </el-input>
+              </el-tab-pane>
+              <el-col :span="20":offset="2" style="margin-top: 10px;">
+                <el-button type="primary" icon="el-icon-cpu" @click="startBurn">烧录</el-button>
+                <el-button type="primary" icon='el-icon-delete' @click="logClear">清空日志</el-button>
+                <el-button type="primary" icon='el-icon-folder-opened' @click="flashRead">读取flash</el-button>
+                <el-button type="primary" icon="el-icon-tickets" @click="saveRead">另存为</el-button>
+                <!-- dialog -->
+                <el-dialog title="选择读取" :visible.sync="dialogReadVisible">
+
+                  <el-row :gutter="20">
+                    <el-col :span="4"><div class="grid-content" style="height: 80px; background-color: rgb(27, 199, 211)">地址:</div></el-col>
+                    <el-col :span="20"><el-input v-model="readStartAddr" placeholder="起始地址"  ref="readStartAddr"></el-input></el-col>
+                    <el-col :span="4"><div class="grid-content" style="height: 80px; margin-top: 10px; background-color: rgb(27, 199, 211)">大小:</div></el-col>
+                    <el-col :span="20"><el-input v-model="readSize" placeholder="读取大小"  ref="readSize" style="margin-top: 10px;"></el-input></el-col>
+                    <el-col :span="4" :offset="8"><el-button @click="dialogReadVisible = false" style="margin-top: 10px;">取 消</el-button></el-col>
+                    <el-col :span="4"><el-button type="primary" @click="startRead" style="margin-top: 10px;">确 定</el-button></el-col>
+                  </el-row>
+                </el-dialog>
+              </el-col>
+            </el-tabs>
+        </el-col>
+      </el-row>
+
+      </el-main>
+
+      <el-footer>版本号: {{projectVersion}} By: Timo</el-footer>
+    </el-container>
+  </div>
+</body>
+  <!-- import Vue before Element -->
+  <!-- <script src="../../../lib/vue-2.6.14/package/dist/vue.js"></script> -->
+  <script src="../../node_modules/vue/dist/vue.js"></script> 
+  <!-- import JavaScript -->
+  <!-- <script src="../../../lib/element-ui-2.15.6/lib/index.js"></script> -->
+  <script src="../../node_modules/element-ui/lib/index.js"></script>
+  <script src="./index.js"></script>
+</html>

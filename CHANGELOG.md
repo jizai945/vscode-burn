@@ -7,3 +7,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 
 - Initial release
+
+
+
+## 0.0.1
+
+实现了烧录和读取flash功能，支持保存到bin 和 hex文件
