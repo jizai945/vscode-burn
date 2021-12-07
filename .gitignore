@@ -1,6 +1,6 @@
 out
-dist
-/dist   # 子目录下的dist不忽略
+dist 
+!lib/vue-2.6.14/package/dist   
 node_modules
 .vscode-test/
 *.vsix

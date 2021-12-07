@@ -6,7 +6,6 @@ const path = require('path');
 const util = require('./util');
 
 var _last_path:string = "/D:/"; // 记录上次打开的文件对话框位置
-const version = "0.0.1";
 const BurnUrl = {
 	'Burn': 'webView/burnView/index.html',
 	'Compiling Cat': 'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
@@ -259,9 +258,20 @@ class BurnWebView {
 
 			// 获取版本号
 			case "getProVersion":
-				console.log(version);
-				util.showInfo(message.info);
-				invokeCallback(this._panel, message, version);
+				{
+					// 从 package.json中获取版本号
+					fs.readFile(context_save.extensionPath + '\\package.json', (err:any, data:any) => {
+						if (err) {
+							console.log(err);
+							return;
+						}
+						let person = data.toString();
+						person = JSON.parse(person);
+						console.log(person.version);
+						util.showInfo(message.info);
+						invokeCallback(this._panel, message, person.version);
+					});
+				}
 				break;
 
 			// 选择烧录文件
