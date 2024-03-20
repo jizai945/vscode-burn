@@ -530,13 +530,22 @@ class BurnWebView {
         const resourcePath = util.getExtensionFileAbsolutePath(context_save, url);
         const dirPath = path.dirname(resourcePath);
         let html = fs.readFileSync(resourcePath, 'utf-8');
+		console.log("resourcePath:", resourcePath);
         // vscode不支持直接加载本地资源，需要替换成其专有路径格式，这里只是简单的将样式和JS的路径替换
-        html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m:any, $1:any, $2:any) => {
-			return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
+        // html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m:any, $1:any, $2:any) => {
+		// 	return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
+		// });
+		// html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m:any, $1:any, $2:any) => {
+		// 	return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
+		// });
+		html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m:any, $1:any, $2:any) => {
+			const absLocalPath = path.resolve(dirPath, $2);
+			const webviewUri = global.panel.webview.asWebviewUri(vscode.Uri.file(absLocalPath));
+			const replaceHref = $1 + webviewUri.toString() + '"';
+			return replaceHref;
 		});
-        // html = html.replace(/(url\(")(.+?)"/g, (m:any, $1:any, $2:any)=> {
-        //     return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
-        // });
+		
+		console.log('html:', html);
         return html;
     }
 }
